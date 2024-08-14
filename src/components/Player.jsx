@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 
-export default function Player({initialName , sympol, ...props}){
+export default function Player({initialName , sympol, isActive, ...props}){
 
     const [playerName, setPlayerName] = useState(initialName);
 
@@ -30,7 +30,7 @@ export default function Player({initialName , sympol, ...props}){
         editText = 'Save';
     }
     return (
-        <li> 
+        <li className={isActive ? 'active' : undefined}> 
             <span className="player"> 
               {playerContent}
             </span>
