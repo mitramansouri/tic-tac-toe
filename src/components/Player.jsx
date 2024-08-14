@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
-export default function Player({initialName , sympol, isActive, ...props}){
+export default function Player({initialName , sympol, isActive,onNameChange, ...props}){
 
     const [playerName, setPlayerName] = useState(initialName);
 
     const [isEditing, setIsEditing] = useState(false);
 
     function handleChange(event){
-        console.log(event.target.value);
         setPlayerName(event.target.value);
+        onNameChange(event.target.value); // Trigger the callback on name change
     }
 
     function setEditingHandler(){

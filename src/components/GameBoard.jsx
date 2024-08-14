@@ -1,26 +1,20 @@
-import { useState } from "react";
-
-const initalGameBoard = [
+const initialGameBoard = [
     [null, null, null],
     [null, null, null],
     [null, null, null]
 ];
 
+export default function GameBoard({ onSelectSquare, turns }) {
+    // Create a copy of the initial game board to prevent mutation
+    let gameBoard = initialGameBoard.map(row => [...row]);
 
-export default function GameBoard({onSelectSquare , activePlayerSymbol}) {
-
-    const [gameBoard, setGameBoard] = useState(initalGameBoard);
-
-    function handleSelectSquare(rowIndex, columnIndex) {
-        setGameBoard((previousGameBoard) => {
-            // immuatable way 
-            const updateGameBoard = [...previousGameBoard.map(innerArray => [...innerArray])];
-            updateGameBoard[rowIndex][columnIndex] = activePlayerSymbol;
-            return updateGameBoard;
-        });
-
-        onSelectSquare();
+    // Apply the turns to the game board
+    for (const turn of turns) {
+        const { square, player } = turn;
+        const { row, col } = square;
+        gameBoard[row][col] = player;
     }
+
     return (
         <ol id="game-board">
             {gameBoard.map((row, rowIndex) => (
@@ -28,7 +22,9 @@ export default function GameBoard({onSelectSquare , activePlayerSymbol}) {
                     <ol>
                         {row.map((playerSymbol, columnIndex) => (
                             <li key={columnIndex}>
-                                <button onClick={() => handleSelectSquare(rowIndex, columnIndex)}>{playerSymbol}</button>
+                                <button onClick={() => onSelectSquare(rowIndex, columnIndex)}>
+                                    {playerSymbol} 
+                                </button>
                             </li>
                         ))}
                     </ol>
